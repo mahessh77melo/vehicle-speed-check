@@ -5,9 +5,12 @@ import time
 import threading
 import math
 
+# ML dataset
 carCascade = cv2.CascadeClassifier('myhaar.xml')
+# input video
 video = cv2.VideoCapture('cars.mp4')
 
+# height and width of the output window
 WIDTH = 1280
 HEIGHT = 720
 
@@ -23,7 +26,7 @@ def estimateSpeed(location1, location2):
     speed = d_meters * fps * 3.6
     return speed
 
-
+# main function that performs tracking 
 def trackMultipleObjects():
     rectangleColor = (0, 255, 0)
     frameCounter = 0
@@ -126,10 +129,10 @@ def trackMultipleObjects():
 
         end_time = time.time()
 
+        # fps calculation
         if not (end_time == start_time):
             fps = 1.0/(end_time - start_time)
 
-        #cv2.putText(resultImage, 'FPS: ' + str(int(fps)), (620, 30),cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
 
         for i in carLocation1.keys():
             if frameCounter % 1 == 0:
@@ -154,16 +157,13 @@ def trackMultipleObjects():
 
                     #print ('CarID ' + str(i) + ': speed is ' + str("%.2f" % round(speed[i], 0)) + ' km/h.\n')
 
-                    # else:
-                    #	cv2.putText(resultImage, "Far Object", (int(x1 + w1/2), int(y1)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-
-                        #print ('CarID ' + str(i) + ' Location1: ' + str(carLocation1[i]) + ' Location2: ' + str(carLocation2[i]) + ' speed is ' + str("%.2f" % round(speed[i], 0)) + ' km/h.\n')
         # cv2.imshow('result', resultImage)
         # change for running the code in colab
         cv2_imshow(resultImage)
         # Write the frame into the file 'output.avi'
         # out.write(resultImage)
 
+        # if escape is pressed, the window should close
         if cv2.waitKey(33) == 27:
             break
 
